@@ -15,17 +15,18 @@ const Trending = () => {
   //console.log(data);
 
   if (status === STATUSES.LOADING) {
-    return <Loader/>;
+    return <Loader />;
   }
   if (status === STATUSES.ERROR) {
     return <p className="">Error fetching data</p>;
   }
   return (
-    <div>
-      <h2 className="text-2xl font-semibold text-red-600 pb-2">
+    <div className="border border-slate-400 p-2 rounded-sm">
+      <h2 className="text-2xl font-semibold text-red-600 ">
         Trending movies
       </h2>
-      <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-2">
+
+      <div className=" flex  overflow-x-scroll no-scrollbar  space-x-5 py-2">
         {data &&
           data.results &&
           data.results.map((movie, index) => (

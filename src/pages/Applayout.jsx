@@ -6,10 +6,9 @@ const Applayout = () => {
   return (
     <div className="">
       <Header />
-      <main className="container m-auto pt-24 px-4 lg:px-0 ">
+      <main className="container m-auto pt-24 pb-8 px-4 lg:px-0 ">
         <Outlet />
       </main>
-      
     </div>
   );
 };

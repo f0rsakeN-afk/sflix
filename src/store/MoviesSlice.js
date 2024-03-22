@@ -1,6 +1,4 @@
-// api key=b3f1d05747349566b5af8e2beca1a178
 
-//eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiM2YxZDA1NzQ3MzQ5NTY2YjVhZjhlMmJlY2ExYTE3OCIsInN1YiI6IjY1ZmM1OWU2NjA2MjBhMDEzMDI1NTY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lw9nf130uEt4eiAXHM3H_qUc7u-aSQeRCHLVv1uEKH8
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -15,7 +13,7 @@ const initialState = {
 };
 
 export const fetchMovies = createAsyncThunk(
-    'movies/fetch', // Action name
+    'movies/fetch', 
     async () => {
       const options = {
         method: 'GET',

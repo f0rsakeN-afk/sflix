@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { fetchQuery } from "../store/QuerySlice";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
-  function handleClick() {
+  const handleClick = () => {
     console.log(query);
-  }
+    dispatch(fetchQuery(query));
+  };
   return (
     <div className=" flex gap-4">
       <input

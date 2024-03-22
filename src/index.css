@@ -6,4 +6,6 @@
 body {
   font-family: "Roboto", sans-serif;
 }
-
+ .no-scrollbar::-webkit-scrollbar { 
+  display: none; 
+} 

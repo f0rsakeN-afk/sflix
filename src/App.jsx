@@ -4,16 +4,18 @@ import Applayout from "./pages/Applayout";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Movies from "./pages/Movies";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
     <div className="">
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route element={<Applayout />}>
             <Route index element={<Navigate replace to="home" />} />
             <Route path="home" element={<Home />} />
-            <Route path="movies" element={<Movies/>} />
+            <Route path="movies" element={<Movies />} />
             <Route path="about" element={<About />} />
           </Route>
         </Routes>
