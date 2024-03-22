@@ -5,7 +5,8 @@
 @tailwind utilities;
 body {
   font-family: "Roboto", sans-serif;
+ background-color: #1F305E;
 }
- .no-scrollbar::-webkit-scrollbar { 
-  display: none; 
-} 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

@@ -13,15 +13,15 @@ const initialState = {
 
 export const fetchQuery = createAsyncThunk("query/fetch", async (query) => {
   const options = {
-    method: 'GET',
-    url: 'https://api.themoviedb.org/3/search/multi',
-    params: {query, include_adult: 'true', language: 'en-US', page: '1'},
+    method: "GET",
+    url: "https://api.themoviedb.org/3/search/multi",
+    params: { query, include_adult: "true", language: "en-US", page: "1" },
     headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiM2YxZDA1NzQ3MzQ5NTY2YjVhZjhlMmJlY2ExYTE3OCIsInN1YiI6IjY1ZmM1OWU2NjA2MjBhMDEzMDI1NTY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lw9nf130uEt4eiAXHM3H_qUc7u-aSQeRCHLVv1uEKH8'
-    }
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiM2YxZDA1NzQ3MzQ5NTY2YjVhZjhlMmJlY2ExYTE3OCIsInN1YiI6IjY1ZmM1OWU2NjA2MjBhMDEzMDI1NTY0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lw9nf130uEt4eiAXHM3H_qUc7u-aSQeRCHLVv1uEKH8",
+    },
   };
-  
 
   try {
     const response = await axios.request(options);
@@ -35,6 +35,11 @@ export const fetchQuery = createAsyncThunk("query/fetch", async (query) => {
 const querySlice = createSlice({
   name: "query",
   initialState,
+  reducers: {
+    remove(state, action) {
+      state.data = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchQuery.pending, (state, action) => {
       state.status = STATUSES1.LOADING;
@@ -48,4 +53,6 @@ const querySlice = createSlice({
     });
   },
 });
+
+export const { remove } = querySlice.actions;
 export default querySlice.reducer;
