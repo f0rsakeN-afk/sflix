@@ -23,7 +23,7 @@ SFlix is a web application that allows users to discover trending, playing now, 
 1. **Clone the repository**:
 
 ```bash
-git clone https://github.com/your-username/sflix.git
+git clone https://github.com/f0rsakeN-afk/sflix.git
 ```
 
 ## Screenshots
@@ -31,7 +31,7 @@ git clone https://github.com/your-username/sflix.git
 **Home page**
 ![Home image](./src/assets/s1.png)
 
-**Movie search page**
+exi**Movie search page**
 ![search page](./src/assets/s2.png)
 
 ## Contributing

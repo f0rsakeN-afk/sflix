@@ -18,7 +18,7 @@ const App = () => {
             <Route index element={<Navigate replace to="home" />} />
             <Route path="home" element={<Home />} />
             <Route path="movies" element={<Movies />} />
-            <Route path="singlemoviedetails" element={<SingleMovieDetails />} />
+            <Route path="singlemoviedetails/:id" element={<SingleMovieDetails />} />
             <Route path="about" element={<About />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />

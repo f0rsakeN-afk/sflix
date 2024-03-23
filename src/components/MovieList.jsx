@@ -1,9 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MovieList = ({ movie }) => {
   return (
     movie.poster_path && (
-      <div className="rounded-md shadow-lg   bg-gray-100">
+      <Link
+        to={`/singlemoviedetails/${movie.id}`}
+        className="rounded-md shadow-lg   bg-gray-100"
+      >
         <img
           className="w-80 h-64"
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -29,7 +33,7 @@ const MovieList = ({ movie }) => {
               ""
             )}
 
-           {/*  {movie.release_date ? (
+            {/*  {movie.release_date ? (
               <span className="w-max bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">
                 Release Date: {movie.release_date}
               </span>
@@ -46,7 +50,7 @@ const MovieList = ({ movie }) => {
             )}
           </div>
         </div>
-      </div>
+      </Link>
     )
   );
 };
