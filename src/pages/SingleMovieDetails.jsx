@@ -7,6 +7,8 @@ import Loader from "../components/Loader";
 import { FaClock, FaStar } from "react-icons/fa";
 import { BiSolidUpvote } from "react-icons/bi";
 import { fetchMovieImages } from "../store/MoreImagesSlice";
+import Reviews from "../components/Reviews";
+import RecommendedMovie from "../components/RecommendedMovie";
 
 const SingleMovieDetails = () => {
   const { id } = useParams();
@@ -25,12 +27,17 @@ const SingleMovieDetails = () => {
   //console.log(images);
 
   if (status === STATUSES.LOADING) return <Loader />;
-  if (status === STATUSES.ERROR) return <p className="">Error fetching data</p>;
+  if (status === STATUSES.ERROR)
+    return (
+      <p className="text-center text-3xl text-gray-200 font-semibold">
+        Error fetching data
+      </p>
+    );
 
   return (
     <>
-      <div className="pt-8 grid grid-cols-4 gap-4 ">
-        <div className="col-span-3">
+      <div className="pt-8 grid md:grid-cols-4 gap-4 ">
+        <div className="md:col-span-3">
           <h2 className="text-5xl font-semibold text-yellow-500 space-x-2 pb-4">
             {movieData.original_title}
             <span className="uppercase p-1 m-1 text-red-500 bg-yellow-500 rounded-sm text-xs">
@@ -46,7 +53,7 @@ const SingleMovieDetails = () => {
               {movieData.genres.map((genre) => (
                 <li
                   key={genre.id}
-                  className="px-3 py-2 bg-gray-200 text-gray-700 font-bold uppercase rounded-full"
+                  className="px-3 test-xs md:text-base py-2 bg-gray-200 text-gray-700 font-bold uppercase rounded-full"
                 >
                   {genre.name}
                 </li>
@@ -55,30 +62,34 @@ const SingleMovieDetails = () => {
           ) : (
             ""
           )}
-          <div className="flex gap-4 py-2 items-center ">
-            <h3 className="text-gray-800 px-3 py-2 bg-gray-300 rounded-full">
-              Release Date:
-              <span className="text-red-600 font-semibold">
-                {movieData.release_date}
-              </span>
-            </h3>
-            <span className="px-3 py-2 bg-gray-200 rounded-full text-red-600 flex items-center gap-1 font-semibold">
-              {movieData.runtime}
-              <FaClock className="text-yellow-600" />
-            </span>
-            <span className="px-3 py-2 bg-gray-200 rounded-full text-red-600 flex items-center gap-1 font-semibold">
-              {movieData.vote_average}
-              <FaStar className="text-yellow-500" />
-            </span>
-            <span className="px-3 py-2 bg-gray-200 rounded-full text-red-600 flex items-center gap-1 font-semibold">
-              Vote Count:{movieData.vote_count}
+          <div className="flex flex-col md:flex-row gap-2 md:gap-4 py-2 items-center">
+            <div className="flex flex-col md:flex-row items-center">
+              <h3 className="text-gray-800 px-3 text-sm py-2 bg-gray-300 rounded-full mb-2 md:mb-0 md:mr-2 md:px-4">
+                Release Date:
+                <span className="text-red-600 font-semibold ml-1">
+                  {movieData.release_date}
+                </span>
+              </h3>
+              <div className="flex items-center">
+                <span className="px-3 py-2 bg-gray-200 rounded-full text-red-600 flex items-center gap-1 text-sm font-semibold mr-2">
+                  {movieData.runtime}
+                  <FaClock className="text-yellow-600" />
+                </span>
+                <span className="px-3 py-2 text-sm bg-gray-200 rounded-full text-red-600 flex items-center gap-1 font-semibold">
+                  {movieData.vote_average}
+                  <FaStar className="text-yellow-500" />
+                </span>
+              </div>
+            </div>
+            <span className="px-3 py-2 text-sm bg-gray-200 rounded-full text-red-600 flex items-center gap-1 font-semibold">
+              Vote Count: {movieData.vote_count}
               <BiSolidUpvote className="text-yellow-500" />
             </span>
           </div>
 
           <section className="flex gap-4 py-1">
             {movieData.budget ? (
-              <h3 className="text-xl text-gray-300 font-semibold">
+              <h3 className="md:text-xl text-gray-300 font-semibold">
                 Budget:
                 <span className="text-red-600 italic ">
                   ${movieData.budget}
@@ -88,7 +99,7 @@ const SingleMovieDetails = () => {
               ""
             )}
             {movieData.revenue ? (
-              <h2 className="text-xl font-semibold text-gray-300">
+              <h2 className="md:text-xl font-semibold text-gray-300">
                 Revenue:
                 <span className="text-green-600 italic">
                   ${movieData.revenue}
@@ -117,11 +128,11 @@ const SingleMovieDetails = () => {
           )}
 
           {movieData.production_companies ? (
-            <section className="border p-2 w-max rounded-xl">
+            <section className="">
               <h2 className="text-2xl font-semibold pb-2 text-red-500">
                 Production Companies
               </h2>
-              <ul className="grid grid-cols-4 gap-4 pt-1">
+              <ul className="grid grid-cols-2 md:grid-cols-4  gap-4 pt-1">
                 {movieData.production_companies.map((company) => (
                   <div className="flex gap-1 items-center justify-center flex-col p-1 bg-gray-50 rounded-md">
                     <img
@@ -158,7 +169,7 @@ const SingleMovieDetails = () => {
             ""
           )}
         </div>
-        <div className="">
+        <div className="order-first md:order-last">
           <img
             className="rounded-sm shadow-lg"
             src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
@@ -174,13 +185,20 @@ const SingleMovieDetails = () => {
           </h2>
           <div className="flex overflow-x-scroll no-scrollbar">
             {images.backdrops.map((photo) => (
-              <img src={`https://image.tmdb.org/t/p/w500${photo.file_path}`} alt="movie-images" className="rounded-sm" loading="lazy" />
+              <img
+                src={`https://image.tmdb.org/t/p/w500${photo.file_path}`}
+                alt="movie-images"
+                className="rounded-sm"
+                loading="lazy"
+              />
             ))}
           </div>
         </div>
       ) : (
         ""
       )}
+      <Reviews id={id} />
+      <RecommendedMovie id={id} />
     </>
   );
 };

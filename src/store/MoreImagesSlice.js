@@ -37,7 +37,7 @@ const movieImagesSlice = createSlice({
     });
     builder.addCase(fetchMovieImages.fulfilled, (state, action) => {
       state.data = action.payload;
-      console.log(action.payload);
+      //console.log(action.payload);
       state.status = STATUSES.IDLE;
     });
     builder.addCase(fetchMovieImages.rejected, (state, action) => {

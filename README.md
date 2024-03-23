@@ -31,7 +31,7 @@ git clone https://github.com/f0rsakeN-afk/sflix.git
 **Home page**
 ![Home image](./src/assets/s1.png)
 
-exi**Movie search page**
+**Movie search page**
 ![search page](./src/assets/s2.png)
 
 ## Contributing

@@ -39,7 +39,7 @@ const movieDetailsSlice = createSlice({
     });
     builder.addCase(fetchMovieDetails.fulfilled, (state, action) => {
       state.data = action.payload;
-      //console.log(action.payload)
+      //console.log(action.payload);
       state.status = STATUSES.IDLE;
     });
     builder.addCase(fetchMovieDetails.rejected, (state, action) => {

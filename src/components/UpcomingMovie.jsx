@@ -18,7 +18,11 @@ const UpcomingMovie = () => {
     return <Loader />;
   }
   if (status === STATUSES.ERROR) {
-    return <p className="">Error fetching data</p>;
+    return (
+      <p className="text-center text-3xl text-gray-200 font-semibold">
+        Error fetching data
+      </p>
+    );
   }
   return (
     <div className="border border-slate-400 p-2 rounded-sm">

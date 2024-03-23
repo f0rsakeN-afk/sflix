@@ -18,13 +18,15 @@ const Trending = () => {
     return <Loader />;
   }
   if (status === STATUSES.ERROR) {
-    return <p className="">Error fetching data</p>;
+    return (
+      <p className="text-center text-3xl text-gray-200 font-semibold">
+        Error fetching data
+      </p>
+    );
   }
   return (
     <div className="border border-slate-400 p-2 rounded-sm">
-      <h2 className="text-2xl font-semibold text-red-600 ">
-        Trending movies
-      </h2>
+      <h2 className="text-2xl font-semibold text-red-600 ">Trending movies</h2>
 
       <div className=" flex  overflow-x-scroll no-scrollbar  space-x-5 py-2">
         {data &&
