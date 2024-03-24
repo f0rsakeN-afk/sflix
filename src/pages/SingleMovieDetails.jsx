@@ -36,24 +36,26 @@ const SingleMovieDetails = () => {
 
   return (
     <>
-      <div className="pt-8 grid md:grid-cols-4 gap-4 ">
-        <div className="md:col-span-3">
-          <h2 className="text-5xl font-semibold text-yellow-500 space-x-2 pb-4">
+      <div className="pt-8 grid lg:grid-cols-4 gap-4 ">
+        <div className="lg:col-span-3">
+          <h2 className="text-5xl text-center md:text-left font-semibold text-yellow-500 space-x-2 pb-4">
             {movieData.original_title}
             <span className="uppercase p-1 m-1 text-red-500 bg-yellow-500 rounded-sm text-xs">
               {movieData.original_language}
             </span>
           </h2>
-          <h3 className="font-md text-orange-600 italic underline underline-offset-2 font-semibold">
+          <h3 className="font-md text-orange-600 italic underline underline-offset-2 font-semibold text-center md:text-left">
             {movieData.tagline}
           </h3>
-          <p className="text-gray-200 font-semibold">{movieData.overview}</p>
+          <p className="text-gray-200 font-semibold text-center md:text-left">
+            {movieData.overview}
+          </p>
           {movieData.genres ? (
-            <ul className="flex  py-2 items-center gap-4">
+            <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6  justify-center  py-2 items-center  gap-1 md:gap-4">
               {movieData.genres.map((genre) => (
                 <li
                   key={genre.id}
-                  className="px-3 test-xs md:text-base py-2 bg-gray-200 text-gray-700 font-bold uppercase rounded-full"
+                  className=" text-center px-2 md:px-3 test-xs md:text-base py-.5 md:py-2 bg-gray-200 text-gray-700 font-bold uppercase rounded-full"
                 >
                   {genre.name}
                 </li>
@@ -111,11 +113,9 @@ const SingleMovieDetails = () => {
           </section>
 
           {movieData.spoken_languages ? (
-            <section className="flex py-2 items-center">
-              <span className="text-gray-300 font-semibold">
-                Spoken Languages:{" "}
-              </span>
-              <ul className="flex gap-2 text-gray-300 items-center ">
+            <section className="flex py-2  ">
+              <h2 className="text-gray-300 font-semibold">Languages: </h2>
+              <ul className="flex space-x-2 text-gray-300 items-center flex-wrap">
                 {movieData.spoken_languages.map((lang) => (
                   <li className="" key={lang.id}>
                     {lang.english_name},
@@ -155,23 +155,23 @@ const SingleMovieDetails = () => {
           )}
 
           {movieData.homepage ? (
-            <h2 className="pt-3 text-gray-400">
-              For more info visit{" "}
+            <h2 className="pt-3  text-gray-400">
+              For more info click{" "}
               <a
                 href={movieData.homepage}
                 target="_blank"
                 className="text-blue-500"
               >
-                {movieData.homepage}
+                here
               </a>
             </h2>
           ) : (
             ""
           )}
         </div>
-        <div className="order-first md:order-last">
+        <div className="order-first lg:order-last">
           <img
-            className="rounded-sm shadow-lg"
+            className="rounded-sm shadow-lg w-full"
             src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
             alt="poster"
             loading="lazy"
@@ -188,7 +188,7 @@ const SingleMovieDetails = () => {
               <img
                 src={`https://image.tmdb.org/t/p/w500${photo.file_path}`}
                 alt="movie-images"
-                className="rounded-sm"
+                className="rounded-sm "
                 loading="lazy"
               />
             ))}
