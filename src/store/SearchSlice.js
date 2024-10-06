@@ -6,6 +6,7 @@ export const STATUSES1 = Object.freeze({
   ERROR: "error",
   LOADING: "loading",
 });
+
 const initialState = {
   data: [],
   status: STATUSES1.IDLE,
@@ -23,34 +24,30 @@ export const fetchQuery = createAsyncThunk("query/fetch", async (query) => {
     },
   };
 
-  try {
-    const response = await axios.request(options);
-    //console.log(response.data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await axios.request(options);
+  return response.data;
 });
 
 const querySlice = createSlice({
   name: "query",
   initialState,
   reducers: {
-    remove(state, action) {
+    remove: (state) => {
       state.data = [];
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchQuery.pending, (state, action) => {
-      state.status = STATUSES1.LOADING;
-    });
-    builder.addCase(fetchQuery.fulfilled, (state, action) => {
-      state.data = action.payload;
-      state.status = STATUSES1.IDLE;
-    });
-    builder.addCase(fetchQuery.rejected, (state, action) => {
-      state.status = STATUSES1.ERROR;
-    });
+    builder
+      .addCase(fetchQuery.pending, (state) => {
+        state.status = STATUSES1.LOADING;
+      })
+      .addCase(fetchQuery.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = STATUSES1.IDLE;
+      })
+      .addCase(fetchQuery.rejected, (state) => {
+        state.status = STATUSES1.ERROR;
+      });
   },
 });
 

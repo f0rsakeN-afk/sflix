@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import movieReducer from "./MoviesSlice";
-import queryReducer from "./QuerySlice";
+import queryReducer from "./SearchSlice";
 import upcomingMovieReducer from "./UpcomingSlice";
 import playingNowMovieReducer from "./PlayingNowSlice";
 import movieDetailsReducer from "./MovieDetailsSlice";
