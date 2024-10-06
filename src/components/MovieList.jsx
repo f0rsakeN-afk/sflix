@@ -1,57 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FaStar } from 'react-icons/fa';
 
 const MovieList = ({ movie }) => {
   return (
-    movie.poster_path && (
-      <Link
-        to={`/singlemoviedetails/${movie.id}`}
-        className="rounded-md shadow-lg   bg-gray-100"
-      >
-        <img
-          className="w-80 h-64"
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt="movie poster"
-          loading="lazy"
-        />
-
-        <div className="p-4">
-          <h2 className="font-bold text-xl text-gray-800 text-center">
-            {movie.original_title || movie.name}
-          </h2>
-
-          {/* <p className="text-gray-700 text-sm">{movie.overview}</p> */}
-          <div className="pt-4 flex gap-2 flex-col">
-            <span className="w-max bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">
-              Popularity: {movie.popularity}
-            </span>
-            {movie.vote_average ? (
-              <span className="w-max bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">
-                Average vote: {movie.vote_average}
-              </span>
-            ) : (
-              ""
-            )}
-
-            {/*  {movie.release_date ? (
-              <span className="w-max bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">
-                Release Date: {movie.release_date}
-              </span>
-            ) : (
-              ""
-            )} */}
-
-            {movie.vote_count ? (
-              <span className="w-max bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">
-                Vote Count: {movie.vote_count}
-              </span>
-            ) : (
-              ""
-            )}
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <Link to={`/movie/${movie.id}`}>
+        <motion.div 
+          className="bg-gray-800 rounded-lg overflow-hidden shadow-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <img
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            className="w-full h-64 object-cover"
+          />
+          <div className="p-4">
+            <h3 className="text-lg font-semibold text-white truncate group-hover:text-yellow-400">{movie.title}</h3>
+            <div className="flex items-center mt-2">
+              <FaStar className="text-yellow-400 mr-1" />
+              <span className="text-gray-300">{movie.vote_average.toFixed(1)}</span>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </Link>
-    )
+    </motion.div>
   );
 };
 

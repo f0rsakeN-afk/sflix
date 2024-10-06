@@ -1,41 +1,29 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { STATUSES, fetchMovies } from "../store/MoviesSlice";
-import MovieList from "./MovieList";
-import Loader from "./Loader";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovies } from '../store/MoviesSlice';
+import MovieList from './MovieList';
+import Loader from './Loader';
 
 const Trending = () => {
   const dispatch = useDispatch();
+  const { data, status } = useSelector((state) => state.movies);
 
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
 
-  const { data, status } = useSelector((state) => state.movies);
-  //console.log(data);
+  if (status === 'loading') return <Loader />;
+  if (status === 'error') return <p className="text-red-500">Error fetching trending movies</p>;
 
-  if (status === STATUSES.LOADING) {
-    return <Loader />;
-  }
-  if (status === STATUSES.ERROR) {
-    return (
-      <p className="text-center text-3xl text-gray-200 font-semibold">
-        Error fetching data
-      </p>
-    );
-  }
   return (
-    <div className="border border-slate-400 p-2 rounded-sm">
-      <h2 className="text-2xl font-semibold text-red-600 ">Trending movies</h2>
-
-      <div className=" flex  overflow-x-scroll no-scrollbar  space-x-5 py-2">
-        {data &&
-          data.results &&
-          data.results.map((movie, index) => (
-            <MovieList movie={movie} key={index} />
-          ))}
+    <section>
+      <h2 className="text-3xl font-bold text-yellow-400 mb-6">Trending Now</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {data?.results?.slice(0, 10).map((movie) => (
+          <MovieList key={movie.id} movie={movie} />
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 

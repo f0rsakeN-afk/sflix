@@ -1,52 +1,29 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUpcomingMovies } from "../store/UpcomingSlice";
-import { STATUSES } from "../store/MoviesSlice";
-import Loader from "./Loader";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUpcomingMovies } from '../store/UpcomingSlice';
+import MovieList from './MovieList';
+import Loader from './Loader';
 
 const UpcomingMovie = () => {
   const dispatch = useDispatch();
+  const { data, status } = useSelector((state) => state.upcomingMovie);
 
   useEffect(() => {
     dispatch(fetchUpcomingMovies());
-  }, []);
+  }, [dispatch]);
 
-  const { data, status } = useSelector((state) => state.upcomingMovie);
-  //console.log(data);
+  if (status === 'loading') return <Loader />;
+  if (status === 'error') return <p className="text-red-500">Error fetching upcoming movies</p>;
 
-  if (status === STATUSES.LOADING) {
-    return <Loader />;
-  }
-  if (status === STATUSES.ERROR) {
-    return (
-      <p className="text-center text-3xl text-gray-200 font-semibold">
-        Error fetching data
-      </p>
-    );
-  }
   return (
-    <div className="border border-slate-400 p-2 rounded-sm">
-      <h2 className="text-2xl font-semibold text-red-600 ">Upcoming movies</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7  gap-4 py-2">
-        {data &&
-          data.results &&
-          data.results.map((item, index) => (
-            <div
-              className="flex flex-col gap-1 bg-gray-150 shadow-2xl overflow-hidden  rounded-lg "
-              key={index}
-            >
-              <img
-                src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-                alt="poster"
-                className="h-80 w-72"
-              />
-              <h2 className=" text-center font-bold text-xl text-gray-200 p-2">
-                {item.original_title || item.name}
-              </h2>
-            </div>
-          ))}
+    <section>
+      <h2 className="text-3xl font-bold text-yellow-400 mb-6">Coming Soon</h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {data?.results?.slice(0, 10).map((movie) => (
+          <MovieList key={movie.id} movie={movie} />
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 
