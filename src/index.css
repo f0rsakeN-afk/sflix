@@ -7,6 +7,12 @@ body {
   font-family: "Roboto", sans-serif;
  background-color: #1F305E;
 }
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

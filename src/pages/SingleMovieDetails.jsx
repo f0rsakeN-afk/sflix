@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchMovieDetails } from "../store/MovieDetailsSlice";
 import { fetchMovieImages } from "../store/MoreImagesSlice";
+import PropTypes from 'prop-types';
 import {
   FaStar,
   FaClock,
   FaCalendar,
   FaDollarSign,
   FaGlobe,
-  FaChevronLeft,
-  FaChevronRight,
+  FaTimes,
 } from "react-icons/fa";
 import Loader from "../components/Loader";
 import Reviews from "../components/Reviews";
@@ -49,29 +49,19 @@ const SingleMovieDetails = () => {
   const dispatch = useDispatch();
   const { data: movie, status } = useSelector((state) => state.movieDetails);
   const { data: images } = useSelector((state) => state.movieImages);
-  const [currentPage, setCurrentPage] = useState(0);
-  const imagesPerPage = 5;
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchMovieDetails(id));
     dispatch(fetchMovieImages(id));
   }, [dispatch, id]);
 
-  const nextPage = () => {
-    setCurrentPage((prevPage) =>
-      (prevPage + 1) * imagesPerPage >= images.backdrops.length
-        ? 0
-        : prevPage + 1,
-    );
+  const openModal = (index) => {
+    setCurrentImageIndex(index);
+    setIsModalOpen(true);
   };
-
-  const prevPage = () => {
-    setCurrentPage((prevPage) =>
-      prevPage === 0
-        ? Math.floor((images.backdrops.length - 1) / imagesPerPage)
-        : prevPage - 1,
-    );
-  };
+  const closeModal = () => setIsModalOpen(false);
 
   if (status === "loading") return <Loader />;
   if (status === "error")
@@ -232,55 +222,25 @@ const SingleMovieDetails = () => {
         </motion.div>
 
         {images.backdrops && images.backdrops.length > 0 && (
-          <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants} className="mt-8">
             <h2 className="text-2xl font-bold text-yellow-400 mb-4">Gallery</h2>
-            <div className="relative">
-              <div className="grid grid-cols-5 gap-4">
-                <AnimatePresence initial={false}>
-                  {images.backdrops
-                    .slice(
-                      currentPage * imagesPerPage,
-                      (currentPage + 1) * imagesPerPage,
-                    )
-                    .map((image, index) => (
-                      <motion.img
-                        key={`${currentPage}-${index}`}
-                        src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
-                        alt={`Movie scene ${currentPage * imagesPerPage + index + 1}`}
-                        className="w-full h-40 object-cover rounded-lg"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                      />
-                    ))}
-                </AnimatePresence>
+            <div className="relative overflow-x-auto">
+              <div className="flex space-x-4 pb-4 -mx-4 px-4 overflow-x-scroll scrollbar-hide">
+                {images.backdrops.map((image, index) => (
+                  <div 
+                    key={index} 
+                    className="flex-none w-64 h-36 md:w-80 md:h-44 cursor-pointer"
+                    onClick={() => openModal(index)}
+                  >
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
+                      alt={`Movie scene ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                ))}
               </div>
-              {images.backdrops.length > imagesPerPage && (
-                <>
-                  <button
-                    className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
-                    onClick={prevPage}
-                  >
-                    <FaChevronLeft />
-                  </button>
-                  <button
-                    className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
-                    onClick={nextPage}
-                  >
-                    <FaChevronRight />
-                  </button>
-                </>
-              )}
             </div>
-            <p className="text-center mt-2 text-gray-400">
-              Showing {currentPage * imagesPerPage + 1} -{" "}
-              {Math.min(
-                (currentPage + 1) * imagesPerPage,
-                images.backdrops.length,
-              )}{" "}
-              of {images.backdrops.length} images
-            </p>
           </motion.div>
         )}
 
@@ -291,6 +251,36 @@ const SingleMovieDetails = () => {
           <RecommendedMovie id={id} />
         </motion.div>
       </motion.div>
+
+      {/* Fullscreen Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 h-screen bg-black bg-opacity-90 z-50 flex items-center justify-center"
+            onClick={closeModal}
+          >
+            <motion.div
+              className="relative max-w-7xl max-h-screen p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={`https://image.tmdb.org/t/p/original${images.backdrops[currentImageIndex].file_path}`}
+                alt={`Movie scene ${currentImageIndex + 1}`}
+                className="max-w-full max-h-full object-contain"
+              />
+              <button
+                className="absolute top-4 right-4 text-white text-2xl"
+                onClick={closeModal}
+              >
+                <FaTimes />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
@@ -309,5 +299,11 @@ const InfoItem = ({ icon: Icon, label, value }) => (
     </div>
   </motion.div>
 );
+
+InfoItem.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 export default SingleMovieDetails;
